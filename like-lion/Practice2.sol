@@ -1,6 +1,6 @@
 pragma solidity >=0.4.24 <=0.5.6;
 
-contract Practice {
+contract Practice2 {
     string public name = 'KlayLion';
     string public symbol = 'KL';
     mapping(uint256 => address) public tokenOwner;

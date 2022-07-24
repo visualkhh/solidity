@@ -1,4 +1,4 @@
-pragma solidity >=0.4.24 <=0.5.6;
+pragma solidity 0.8.15;
 
 contract Practice1 {
     uint256 private totalSupply = 10;
