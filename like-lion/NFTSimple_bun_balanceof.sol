@@ -6,7 +6,7 @@ contract NFTSimple {
     mapping(uint256 => address) public tokenOwner;
     mapping(uint256 => string) public tokenURIs;
     // 소유한 토큰 리스트
-    mapping(uint256 => uint256[]) private _ownedTokens;
+    mapping(address => uint256[]) private _ownedTokens;
     // KIP17Received bytes value
     bytes4 private constant _KIP17_RECEIVED = 0x6745782b;
 
@@ -71,7 +71,7 @@ contract NFTSimple {
         // [10, 15, 20]
         uint256 lastTokenIdex = _ownedTokens[from].length - 1;
         for (uint256 i = 0; i < _ownedTokens[from].length; i++) {
-            if (tokenId == _ownedTokens[from][lastTokenIdex]) {
+            if (tokenId == _ownedTokens[from][i]) {
                 // swap
                 _ownedTokens[from][i] = _ownedTokens[from][lastTokenIdex];
                 _ownedTokens[from][lastTokenIdex] = tokenId;
@@ -79,17 +79,44 @@ contract NFTSimple {
             }
         }
         _ownedTokens[from].length--;
+
+
     }
 
     function ownedTokens(address owner) public view returns (uint256[] memory) {
-        return _ownedTokens[from];
+        return _ownedTokens[owner];
+    }
+
+    /**
+     * @dev Gets the balance of the specified address.
+     * @param owner address to query the balance of
+     * @return uint256 representing the amount owned by the passed address
+     */
+    function balanceOf(address owner) public view returns (uint256) {
+        // 과제(구현 필요)
+        require(
+            owner != address(0),
+            "KIP17: balance query for the zero address"
+        );
+        return _ownedTokens[owner].length;
+    }
+
+    /**
+	* @param owner owner of the token to burn
+	* @param tokenId uint256 ID of the token being burned
+	*/
+    function burn(address owner, uint256 tokenId) public {
+        // 과제(구현 필요)
+        require(owner == msg.sender, 'from != msg.sender');
+        require(owner == tokenOwner[tokenId], 'you are not the owner of th token');
+        _removeTokenFromList(owner, tokenId);
     }
 }
 
 contract NFTMarket {
     mapping(uint256 => address) public seller;
 
-    function buyNFT(iint256 tokenId, address NFTAddress) public payable returns (bool) {
+    function buyNFT(uint256 tokenId, address NFTAddress) public payable returns (bool) {
         // 구매한 사람한테 0.01 KLAY 전송
         address payable receiver = address(uint160(seller[tokenId]));
 
@@ -103,6 +130,6 @@ contract NFTMarket {
 
     function onKIP17Received(address operator, address from, uint256 tokenId, bytes memory data) public returns (bytes4) {
         seller[tokenId] = from;
-        return bytes4(keccak256('onKIP17Received(address,address,uint256,bytes)'));
+        return bytes4(keccak256("onKIP17Received(address,address,uint256,bytes)"));
     }
 }
