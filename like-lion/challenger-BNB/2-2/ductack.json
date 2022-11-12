@@ -1,0 +1,31 @@
+{
+  "name": "ductack",
+  "description": "Ductack NFT Series",
+  "image": "https://gateway.pinata.cloud/ipfs/QmQr5FqBVT15gMYVZacHJRdwQM4z24N4LCG3dr57WymUdm",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "White"
+    },
+    {
+      "trait_type": "Color",
+      "value": "Black & White"
+    },
+    {
+      "trait_type": "Mane",
+      "value": "Round"
+    },
+    {
+      "trait_type": "Mane",
+      "value": "Line"
+    },
+    {
+      "trait_type": "Nose",
+      "value": "Circle"
+    },
+    {
+      "trait_type": "Mouse",
+      "value": "Inverted triangle"
+    }
+  ]
+}
